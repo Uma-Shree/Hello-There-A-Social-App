@@ -1,18 +1,17 @@
 const mgoose = require('mongoose');
-userSchema = new mgoose.Schema({
+const userSchema = new mgoose.Schema({
     email: {
         type: String,
         required: true,
         unique: true
     },
     password: {
-        type: string,
-        required: true,
+        type: String,
+        required: true
 
     },
     name: {
-
-        type: string,
+        type: String,
         required: true
     }
 }, {
