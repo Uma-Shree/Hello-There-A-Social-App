@@ -11,8 +11,22 @@ const passport = require('passport');
 const session = require('express-session');
 
 const passportLocal = require('./config/passport-local-strategy');
+
+//const MongoStore = require('connect-mongo')(session);
 //to connect mongo its require an argument -an object of Express session but i removed
 const MongoStore = require('connect-mongo');
+
+//for sass as a middileware
+const sassMiddleware = require('node-sass-middleware');
+
+app.use(sassMiddleware({
+    src: './assets/scss',
+    dest: './assets/css',
+    debug: true,
+    outputStyle: 'extended',
+    prefix: '/css'
+
+}))
 
 
 app.use(express.urlencoded());

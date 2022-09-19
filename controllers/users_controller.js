@@ -55,3 +55,16 @@ module.exports.createSession = function(req, res) {
     //edited
     return res.redirect('/');
 }
+
+module.exports.destroySession = function(req, res) {
+
+    req.logout();
+    return res.redirect('/');
+    /*
+    req.logout(function(err) {
+        if (err) { return next(err); }
+        res.redirect('/');
+    });
+*/
+
+}

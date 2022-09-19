@@ -5,6 +5,9 @@
         <%= title  %>
     </title>
     <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+
     <%- style %>
 
 </head>
@@ -12,12 +15,17 @@
 <body>
     <%- include('header'); %>
 
-        <%- body %>
+        <main id="layout-main">
+            <%- body %>
+        </main>
 
+        <%- include( 'user_profile'); %>
 
-            <%- include('footer'); %>
+            <%- script %>
 
-                <%- script %>
+                <%- include('footer'); %>
+
+                    <%- script %>
 
 </body>
 
