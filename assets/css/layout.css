@@ -1,6 +1,10 @@
 body {
   margin: 0;
+  padding: 0;
   text-align: center; }
+
+style {
+  type: none; }
 
 #layout-main {
   height: 100%; }

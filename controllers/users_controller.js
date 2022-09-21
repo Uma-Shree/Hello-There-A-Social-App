@@ -60,11 +60,18 @@ module.exports.destroySession = function(req, res) {
 
     req.logout();
     return res.redirect('/');
+
     /*
-    req.logout(function(err) {
-        if (err) { return next(err); }
-        res.redirect('/');
+
+    function(err, post) {
+        if (err) { console.log('error in creating the post'); return; }
+        return res.redirect('/');
     });
-*/
+    
+        req.logout(function(err) {
+            if (err) { return next(err); }
+            res.redirect('/');
+        });
+    */
 
 }
