@@ -3,7 +3,7 @@
         <% if(locals.user && locals.user.id==comment.user.id) { %>
 
             <small>
-        <a href="/comments/destroy/<%= comment.id%>">delete comment</a>
+        <a href="/comments/destroy/<%= comment.id %>">delete comment</a>
         </small>
             <% } %>
                 <%= comment.content %>
