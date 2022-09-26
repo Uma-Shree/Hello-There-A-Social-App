@@ -10,30 +10,26 @@
             <textarea name="content" cols="30" rows="4"></textarea>
             <input type="submit" value="Post">
         </form>
-
         <% } %>
             <div id="posts-list-container">
-
                 <ul>
                     <% for(post of posts) { %>
-                        <li>
-                            <p>
-                                <%= post.content %>
-                                    <br>
-                                    <small>
-                                <%= post.user.name %>
-                            </small>
-                            </p>
-                            <div class="post-comments">
-                                <% if(locals.user){ %>
-                                    <form action="/comments/create" method="POST">
-                                        <input type="text" name="content">
-                                        <input type="hidden" name="post" value="<%= post._id%>">
-                                        <input type="submit" value="Add Comment">
-                                    </form>
-                                    <% } %>
-                            </div>
+                        <%- include('_post') %>
                             <% } %>
                 </ul>
             </div>
+</section>
+
+
+
+<section id="user-friends">
+    <h4>Friends</h4>
+    <% for(u of all_users) { %>
+        <p>
+
+            <a href="/users/profile/<%= u.id %>">
+                <%= u.name %>
+            </a>
+        </p>
+        <% } %>
 </section>

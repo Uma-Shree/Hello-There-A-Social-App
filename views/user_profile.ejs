@@ -2,3 +2,20 @@
 <h1>
     Hello There/ Profile Page
 </h1>
+
+
+<% if(user.id == profile_user.id %>
+    <!--if user matches then show the form-->
+    <form action="/users/update/<%= profile_user.id %>" method="POST">
+        <input type="text" name="name" placeolder="Your Name" value="<%= profile_user.name %>" required>
+        <input type="email" name="email" placeolder="Your Email" value="<%= profile_user.email %>" required>
+
+        <input type="submit" value="update">
+    </form>
+    <% } else { %>
+        <!--else sow only the profile info-->
+        <!-- <p>
+            <%= profile_user.name %>
+        </p>-->
+
+        <% } %>
