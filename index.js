@@ -18,6 +18,10 @@ const MongoStore = require('connect-mongo');
 
 //for sass as a middileware
 const sassMiddleware = require('node-sass-middleware');
+const flash = require('connect-flash');
+const customMware = require('./config/middleware');
+
+
 
 app.use(sassMiddleware({
     src: './assets/scss',
@@ -34,7 +38,8 @@ app.use(express.urlencoded());
 app.use(cookieParser());
 
 app.use(express.static('./assets'));
-
+//make the upload path available to the browser
+app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(expressLayouts);
 app.set('layout extractStyles', true);
 app.set('layout extractScripts', true);
@@ -70,8 +75,12 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.use(passport.setAuthenticatedUser);
+
+// adding flash for noticificcation it uses session cookie
+app.use(flash());
+app.use(customMware.setFlash);
+
 
 //use express router
 app.use('/', require('./routes'));
@@ -82,6 +91,6 @@ app.listen(port, function(err) {
 
     }
 
-    console.log(`Server is running on port: ${port}`);
+    console.log(`Server is running on port: ${ port }`);
 
 });
