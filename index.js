@@ -12,6 +12,10 @@ const session = require('express-session');
 
 const passportLocal = require('./config/passport-local-strategy');
 
+const passportJWT = require('./config/passport-jwt-strategy');
+//for google authentication
+const passportGoogle=require('./config/passport-google-oauth2-strategy');
+
 //const MongoStore = require('connect-mongo')(session);
 //to connect mongo its require an argument -an object of Express session but i removed
 const MongoStore = require('connect-mongo');
@@ -40,6 +44,7 @@ app.use(cookieParser());
 app.use(express.static('./assets'));
 //make the upload path available to the browser
 app.use('/uploads', express.static(__dirname + '/uploads'));
+
 app.use(expressLayouts);
 app.set('layout extractStyles', true);
 app.set('layout extractScripts', true);
@@ -54,7 +59,6 @@ app.set('views', './views');
 app.use(session({
     name: 'hello_there',
     //TODO change the secret before deployment in production mode 
-
     secret: 'blahsomething',
     saveUninitialized: false,
     resave: false,
