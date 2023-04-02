@@ -6,7 +6,7 @@ const { getMaxListeners } = require("process");
 
 let transport = nodemailer.createTransport({
     service: 'gmail',
-    host: 'smtp.gmial.com',
+    host: 'smtp.gmail.com',
     port: 587,
     secure: false,
     auth: {
