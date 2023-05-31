@@ -1,12 +1,11 @@
 const Post = require('../models/post');
 const User = require('../models/user');
 
-
-
 module.exports.home = async function(req, res) {
 
     try {
         //populate the user of each post
+
         let posts = await Post.find({})
             .sort('-createdAt')
             .populate('user')
@@ -14,21 +13,32 @@ module.exports.home = async function(req, res) {
                 path: 'comments',
                 populate: {
                     path: 'user'
+                },
+                populate: {
+                    path: 'likes'
                 }
-            });
+            }).populate('likes');
 
         let users = await User.find({});
+
+        let ejsopt = {
+            async: true
+        };
         return res.render('home', {
-            title: "Hello There | Home ",
+            title: "Hello There | Home",
             posts: posts,
             all_users: users
         });
+
+
     } catch (err) {
         console.log('Error', err);
         return;
     }
 }
 
+
+/*
 //method to delete a post from DOM
 let deletePost = function(deleteLink) {
     $(deleteLink).click(function(e) {
@@ -46,25 +56,28 @@ let deletePost = function(deleteLink) {
         });
     });
 }
-
+*/
 /*
+
 module.exports.home = function(req, res) {
     //return res.end('<h1> Express is up for Hello there! </h1>');
 
     //  console.log(req.cookies);
     //rendering the home ejs 
-
     /*
+
         Post.find({}, function(err, posts) {
 
-
+            //let users = User.find({});
             return res.render('home', {
                 title: "Hello There | Home",
-                posts: posts
+                posts: posts,
+
             });
 
         });
       
+
 //Populate the user of each post
 Post.find({}).populate('user')
     .populate({
@@ -83,6 +96,5 @@ Post.find({}).populate('user')
             });
         });
     });
-}
-
+} 
 */

@@ -1,37 +1,67 @@
 <link rel="stylesheet" href="/css/home.css">
+<link rel="stylesheet" href="/css/chat_box.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <div id="home-container">
     <section id="feed-posts">
-        <h4>Posts</h4>
+        <h2>Posts</h2>
         <% if(locals.user){ %>
             <form action="/posts/create" id="new-post-form" method="POST">
-                <textarea name="content" cols="30" rows="4"></textarea>
+                <textarea name="content" cols="30" rows="5" placeholder="Post something..." required></textarea>
                 <input type="submit" value="Post">
             </form>
             <% } %>
                 <div id="posts-list-container">
                     <ul>
-                        <% for( post of posts ) { %>
+                        <% for(post of posts){ %>
 
                             <%- include('_post') -%>
 
                                 <% } %>
+
                     </ul>
                 </div>
     </section>
 
 
-
     <section id="user-friends">
         <h4>Friends</h4>
-        <% for(u of all_users) { %>
+        <% for(u of all_users){ %>
             <p>
 
                 <a href="/users/profile/<%= u.id %>">
                     <%= u.name %>
+                        <br>
+                        <%= u.email %>
                 </a>
             </p>
             <% } %>
-    </section>
-</div>
 
-<script src="/js/home_posts.js"></script>
+    </section>
+
+
+</div>
+<script src="/js/home_posts.js">
+</script>
+
+<!-- importing this script for creating the comment-->
+<script src="/js/home_post_comments.js"></script>
+
+
+<!--change: import the script file for toggle ,likesalso run it over for the already present post and comment on th page-->
+<script src="js/toggle_likes.js">
+</script>
+<script>
+    $('.toggle-like-button').each(function() {
+        let self = this;
+        let toggleLike = new ToggleLike(self);
+
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src=" https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js "></script>
+<script src="/js/chat_engine.js "></script>
+<% if(locals.user){ %>
+    <script>
+        new ChatEngine('user-chat-box ', '<%=locals.user.email %>');
+    </script>
+    <% } %>

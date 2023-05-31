@@ -2,19 +2,10 @@ const nodemailer = require("nodemailer");
 const ejs = require('ejs');
 const path = require('path');
 const { getMaxListeners } = require("process");
+const env = require('./environment');
 
 
-let transport = nodemailer.createTransport({
-    service: 'gmail',
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    auth: {
-        user: 'umashree31jan@gmail.com', //this should be user name
-        pass: 'Pass@gmail11', //this should be password
-
-    }
-});
+let transport = nodemailer.createTransport(env.smtp);
 let renderTemplate = (data, relativePath) => {
     let mailHTML;
     ejs.renderFile(

@@ -1,10 +1,11 @@
 const express = require('express');
+const env = require('./config/environment');
 const cookieParser = require('cookie-parser');
 const app = express();
 const port = 8000;
 const expressLayouts = require('express-ejs-layouts');
 
-const db = require('./config/mgoose');
+const db = require('./config/mongoose');
 //used for session cookie
 
 const passport = require('passport');
@@ -14,7 +15,7 @@ const passportLocal = require('./config/passport-local-strategy');
 
 const passportJWT = require('./config/passport-jwt-strategy');
 //for google authentication
-const passportGoogle=require('./config/passport-google-oauth2-strategy');
+const passportGoogle = require('./config/passport-google-oauth2-strategy');
 
 //const MongoStore = require('connect-mongo')(session);
 //to connect mongo its require an argument -an object of Express session but i removed
@@ -24,12 +25,18 @@ const MongoStore = require('connect-mongo');
 const sassMiddleware = require('node-sass-middleware');
 const flash = require('connect-flash');
 const customMware = require('./config/middleware');
+//for chatting 
+const chatServer = require('http').Server(app);
+const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
+chatServer.listen(5000);
+console.log('chat server is listening on port 5000');
 
 
+const path = require('path');
 
 app.use(sassMiddleware({
-    src: './assets/scss',
-    dest: './assets/css',
+    src: path.join(__dirname, env.asset_path, 'scss'),
+    dest: path.join(__dirname, env.asset_path, 'css'),
     debug: true,
     outputStyle: 'extended',
     prefix: '/css'
@@ -41,7 +48,7 @@ app.use(express.urlencoded());
 
 app.use(cookieParser());
 
-app.use(express.static('./assets'));
+app.use(express.static(env.asset_path));
 //make the upload path available to the browser
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
@@ -50,7 +57,7 @@ app.set('layout extractStyles', true);
 app.set('layout extractScripts', true);
 
 
-
+const ejs = require('ejs');
 //set up the view engine
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -59,7 +66,7 @@ app.set('views', './views');
 app.use(session({
     name: 'hello_there',
     //TODO change the secret before deployment in production mode 
-    secret: 'blahsomething',
+    secret: env.session_cookie_key,
     saveUninitialized: false,
     resave: false,
     cookie: {
@@ -68,7 +75,7 @@ app.use(session({
     },
     store: new MongoStore({
             //  mongooseConnection: db,
-            mongoUrl: 'mongodb://localhost/hello_there_development',
+            mongoUrl: 'mongodb://localhost/hello_there_db',
             autoRemoved: 'disabled'
         },
         function(err) {

@@ -2,15 +2,35 @@
     <p>
         <% if(locals.user && locals.user.id==comment.user.id) { %>
 
+
             <small>
-        <a href="/comments/destroy/<%= comment.id %>">delete comment</a>
-        </small>
+                <a class="delete-comment-button" href="/comments/destroy/<%= comment.id %>">X</a>
+            </small>
             <% } %>
+
+                <!--<small>
+                <a href="/comments/destroy/<%= comment.id %>">delete comment</a>
+                </small> 
+                <% } %> -->
                 <%= comment.content %>
                     <br>
                     <small>
     <%= comment.user.name %>
-     
+    
         </small>
+
+                    <!--change : display the likes of this comment if user is logged in-->
+                    <!--study about data attributes-->
+
+                    <small>
+    <% if(locals.user){ %>
+<a class="toggle-like-button" data-likes="<%= comment.likes.length %>" href="/likes/toggle/?id=<%= comment._id %>&type=Comment">
+    <%= comment.likes.length %> Likes
+</a>
+<% } else { %>
+    <%= comment.likes.length %> 
+    <%  } %>
+    
+</small>
     </p>
 </li>

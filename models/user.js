@@ -1,8 +1,9 @@
-const mgoose = require('mongoose');
+const mongoose = require('mongoose');
+//const mgoose = require('mgoose');
 const multer = require('multer')
 const path = require('path');
 const AVATAR_PATH = path.join('/uploads/users/avatars');
-const userSchema = new mgoose.Schema({
+const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
@@ -19,7 +20,14 @@ const userSchema = new mgoose.Schema({
     },
     avatar: {
         type: String
-    }
+    },
+    friendships: [
+
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Friendship'
+        }
+    ]
 }, {
     timestamps: true
 
@@ -42,5 +50,5 @@ let storage = multer.diskStorage({
 userSchema.statics.uploadedAvatar = multer({ storage: storage }).single('avatar');
 userSchema.statics.avatarPath = AVATAR_PATH;
 
-const User = mgoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 module.exports = User;
